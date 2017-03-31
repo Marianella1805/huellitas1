@@ -1,0 +1,102 @@
+NOTA:
+
+RECORDAR QUE EN PRODUCCION TENEMOS DOS SERVIDORES DISTINTOS UNO PARA LOS ARCHIVOS ESTATICOS Y OTRO PARA EL PROYECTO(DONDE VA TODA LA LÓGICA)
+
+COMANDO:
+
+python manage.py collectstatic
+LUEGO DAR EN:
+yes
+
+COMO NOS ENCONTRAMOS DESARROLLANDO EL PROYECTO TODO ESO ESTARA EN EL SERVER QUE LLEVA LOGICA, ENTONCES CON EL COMANDO ANTERIOR ENVIAMOS NUESTRO ARCHIVOS ESTATICOS DE ESTE SERVER AL SERVIDOR DE STATIC PARA QUE LOS PUEDA CARGAR. 
+
+
+PARA PODER MEJORAR EL ASPECTO DE NUESTROS FORMULARIOS:
+
+==========================================
+pip install --upgrade django-crispy-forms
+==========================================
+
+PARA INSTALAR EL CRISPY, DEBEMOS AÑADIR AL SETTING DENTRO DEL INSTALLED_APPS:
+
+'crispy_forms',
+
+AÑADIMOS AL ARCHIVO SETTINGS EN CUALQUIER LUGAR:
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+PARA USAR EL CRISPY DENTRO DE UN TEMPLATE:
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+PARA APLICAR EL CRISPY A NUESTRO FORMULARIO:
+
+{{ form|crispy }}
+
+PARA LLAMAR A UNA URL POR SU NOMBRE:
+
+url(r'^about/$', about, name='about'),
+
+href = "{% url 'contact' %}"
+
+
+LOGIN:
+
+
+INSTALAR APLICACION PARA LOGIN:
+
+PARA ELLO DEBEMOS UBICARNOS EN EL PROYECTO NO EL SRC SINO EN VETERINARIA
+
+======================================
+pip install django-registration-redux
+======================================
+
+EN SETTINGS INSTALLED_APPS:
+
+'django.contrib.sites',
+'registration',
+
+DEBAJO DE SETTINGS:
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+REGISTRATION_AUTO_LOGIN = True
+
+
+LUEGO REALIZAR MIGRACIONES:
+
+========================
+python manage.py migrate
+========================
+
+AÑDIMOS UNA NUEVA URL:
+
+from django.conf.urls import url, include
+
+url(r'^accounts/', include('registration.backends.default.urls')),
+
+DESCARGUEMOS LA CARPETA REGISTRATION Y AÑADIMOS UNA URL PAR REGISTRO:
+
+from django.conf.urls import include, url
+
+url(r'^accounts/', include('registration.backends.default.urls')),
+
+EDITAMOS LA BARRA DE NAVEGACION:
+
+<li class="active"><a href="/accounts/register">Registrate <span class="sr-only">(current)</span></a></li>
+
+AÑADIMOS EL ID AL SETTINGS:
+
+SITE_ID = 1
+
+EDITAMOS LA BARRA DE NAVEGACION PARA EL LOGIN:
+
+<li><a href="/accounts/login">Login</a></li>
+
+
+REDIRECCIONAR DESPUES DEL LOGIN:
+
+LOGIN_REDIRECT_URL = '/'
+
